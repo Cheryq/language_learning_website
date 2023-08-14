@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>map</title>
+    <link rel="stylesheet" href="/static/map/style2.css" />
+</head>
+
+<body>
+    <!--
+    <embed src="music/music.mp3" autostart=true hidden=true></embed>-->
+    <div id="main">
+    </div>
+    <script src="/static/map/jquery.js"></script>
+    <script src="/static/map/echarts.js"></script>
+    <script src="/static/map/world.js"></script>
+    <div class="container">
+        <!--为echarts准备一个dom容器-->
+        <div id="myEcharts"></div>
+    </div>
+
+    <div id="worldMap" style="width: 1900px;height: 1000px;border: 1px solid #ddd;margin: 0px auto;"></div>
+     <div class="shell">
+  <a href="#" class="box"><img class="icon" alt="#" src="/static/map/static/picture/单列列表.png"/><span class="item"></span></a>
+    <a href="http://localhost:8989/homepage" class="box"><img class="icon" alt="#" src="/static/map/static/picture/首页.png"/><span class="item">首页</span></a>
+    <a href="http://localhost:8989/introduction" class="box"><img class="icon" alt="#" src="/static/map/static/picture/会议简介.png"/><span class="item">简介</span></a>
+    <a href="http://localhost:8989/map" class="box"><img class="icon" alt="#" src="/static/map/static/picture/地图类_地图.png"/><span class="item">地图</span></a>
+    <a href="http://localhost:8989/search" class="box"><img class="icon" alt="#" src="/static/map/static/picture/搜索.png"/><span class="item">搜索</span></a>
+    <a href="http://localhost:8989/member" class="box"><img class="icon" alt="#" src="/static/map/static/picture/团队成员.png"/><span class="item">成员</span></a>
+</div>
+
+
+    <script>
+        // 绘制图表
+        let worldChart = echarts.init(document.getElementById('worldMap'));
+        // 国家名英文中文对比
+        let nameComparison = {
+            'Canada': '加拿大',
+            'Russia': '俄罗斯',
+            'China': '中国',
+            'United States': '美国',
+            'Singapore Rep.': '新加坡',
+            'Dominican Rep.': '多米尼加',
+            'Palestine': '巴勒斯坦',
+            'Bahamas': '巴哈马',
+            'Timor-Leste': '东帝汶',
+            'Afghanistan': '阿富汗',
+            'Guinea-Bissau': '几内亚比绍',
+            "Côted'Ivoire": '科特迪瓦',
+            'Siachen Glacier': '锡亚琴冰川',
+            "Br. Indian Ocean Ter.": '英属印度洋领土',
+            'Angola': '安哥拉',
+            'Albania': '阿尔巴尼亚',
+            'United Arab Emirates': '阿联酋',
+            'Argentina': '阿根廷',
+            'Armenia': '亚美尼亚',
+            'French Southern and Antarctic Lands': '法属南半球和南极领地',
+            'Australia': '澳大利亚',
+            'Austria': '奥地利',
+            'Azerbaijan': '阿塞拜疆',
+            'Burundi': '布隆迪',
+            'Belgium': '比利时',
+            'Benin': '贝宁',
+            'Burkina Faso': '布基纳法索',
+            'Bangladesh': '孟加拉国',
+            'Bulgaria': '保加利亚',
+            'The Bahamas': '巴哈马',
+            'Bosnia and Herz.': '波斯尼亚和黑塞哥维那',
+            'Belarus': '白俄罗斯',
+            'Belize': '伯利兹',
+            'Bermuda': '百慕大',
+            'Bolivia': '玻利维亚',
+            'Brazil': '巴西',
+            'Brunei': '文莱',
+            'Bhutan': '不丹',
+            'Botswana': '博茨瓦纳',
+            'Central African Rep.': '中非',
+            'Switzerland': '瑞士',
+            'Chile': '智利',
+            'Ivory Coast': '象牙海岸',
+            'Cameroon': '喀麦隆',
+            'Dem. Rep. Congo': '刚果民主共和国',
+            'Congo': '刚果',
+            'Colombia': '哥伦比亚',
+            'Costa Rica': '哥斯达黎加',
+            'Cuba': '古巴',
+            'N. Cyprus': '北塞浦路斯',
+            'Cyprus': '塞浦路斯',
+            'Czech Rep.': '捷克',
+            'Germany': '德国',
+            'Djibouti': '吉布提',
+            'Denmark': '丹麦',
+            'Algeria': '阿尔及利亚',
+            'Ecuador': '厄瓜多尔',
+            'Egypt': '埃及',
+            'Eritrea': '厄立特里亚',
+            'Spain': '西班牙',
+            'Estonia': '爱沙尼亚',
+            'Ethiopia': '埃塞俄比亚',
+            'Finland': '芬兰',
+            'Fiji': '斐',
+            'Falkland Islands': '福克兰群岛',
+            'France': '法国',
+            'Gabon': '加蓬',
+            'United Kingdom': '英国',
+            'Georgia': '格鲁吉亚',
+            'Ghana': '加纳',
+            'Guinea': '几内亚',
+            'Gambia': '冈比亚',
+            'Guinea Bissau': '几内亚比绍',
+            'Eq. Guinea': '赤道几内亚',
+            'Greece': '希腊',
+            'Greenland': '格陵兰',
+            'Guatemala': '危地马拉',
+            'French Guiana': '法属圭亚那',
+            'Guyana': '圭亚那',
+            'Honduras': '洪都拉斯',
+            'Croatia': '克罗地亚',
+            'Haiti': '海地',
+            'Hungary': '匈牙利',
+            'Indonesia': '印度尼西亚',
+            'India': '印度',
+            'Ireland': '爱尔兰',
+            'Iran': '伊朗',
+            'Iraq': '伊拉克',
+            'Iceland': '冰岛',
+            'Israel': '以色列',
+            'Italy': '意大利',
+            'Jamaica': '牙买加',
+            'Jordan': '约旦',
+            'Japan': '日本',
+            'Kazakhstan': '哈萨克斯坦',
+            'Kenya': '肯尼亚',
+            'Kyrgyzstan': '吉尔吉斯斯坦',
+            'Cambodia': '柬埔寨',
+            'Korea': '韩国',
+            'Kosovo': '科索沃',
+            'Kuwait': '科威特',
+            'Lao PDR': '老挝',
+            'Lebanon': '黎巴嫩',
+            'Liberia': '利比里亚',
+            'Libya': '利比亚',
+            'Sri Lanka': '斯里兰卡',
+            'Lesotho': '莱索托',
+            'Lithuania': '立陶宛',
+            'Luxembourg': '卢森堡',
+            'Latvia': '拉脱维亚',
+            'Morocco': '摩洛哥',
+            'Moldova': '摩尔多瓦',
+            'Madagascar': '马达加斯加',
+            'Mexico': '墨西哥',
+            'Macedonia': '马其顿',
+            'Mali': '马里',
+            'Myanmar': '缅甸',
+            'Montenegro': '黑山',
+            'Mongolia': '蒙古',
+            'Mozambique': '莫桑比克',
+            'Mauritania': '毛里塔尼亚',
+            'Malawi': '马拉维',
+            'Malaysia': '马来西亚',
+            'Namibia': '纳米比亚',
+            'New Caledonia': '新喀里多尼亚',
+            'Niger': '尼日尔',
+            'Nigeria': '尼日利亚',
+            'Nicaragua': '尼加拉瓜',
+            'Netherlands': '荷兰',
+            'Norway': '挪威',
+            'Nepal': '尼泊尔',
+            'New Zealand': '新西兰',
+            'Oman': '阿曼',
+            'Pakistan': '巴基斯坦',
+            'Panama': '巴拿马',
+            'Peru': '秘鲁',
+            'Philippines': '菲律宾',
+            'Papua New Guinea': '巴布亚新几内亚',
+            'Poland': '波兰',
+            'Puerto Rico': '波多黎各',
+            'Dem. Rep. Korea': '朝鲜',
+            'Portugal': '葡萄牙',
+            'Paraguay': '巴拉圭',
+            'Qatar': '卡塔尔',
+            'Romania': '罗马尼亚',
+            'Rwanda': '卢旺达',
+            'W. Sahara': '西撒哈拉',
+            'Saudi Arabia': '沙特阿拉伯',
+            'Sudan': '苏丹',
+            'S. Sudan': '南苏丹',
+            'Senegal': '塞内加尔',
+            'Solomon Is.': '所罗门群岛',
+            'Sierra Leone': '塞拉利昂',
+            'El Salvador': '萨尔瓦多',
+            'Somaliland': '索马里兰',
+            'Somalia': '索马里',
+            'Serbia': '塞尔维亚',
+            'Suriname': '苏里南',
+            'Slovakia': '斯洛伐克',
+            'Slovenia': '斯洛文尼亚',
+            'Sweden': '瑞典',
+            'Swaziland': '斯威士兰',
+            'Syria': '叙利亚',
+            'Chad': '乍得',
+            'Togo': '多哥',
+            'Thailand': '泰国',
+            'Tajikistan': '塔吉克斯坦',
+            'Turkmenistan': '土库曼斯坦',
+            'East Timor': '东帝汶',
+            'Trinidad and Tobago': '特里尼达和多巴哥',
+            'Tunisia': '突尼斯',
+            'Turkey': '土耳其',
+            'Tanzania': '坦桑尼亚',
+            'Uganda': '乌干达',
+            'Ukraine': '乌克兰',
+            'Uruguay': '乌拉圭',
+            'Uzbekistan': '乌兹别克斯坦',
+            'Venezuela': '委内瑞拉',
+            'Vietnam': '越南',
+            'Vanuatu': '瓦努阿图',
+            'West Bank': '西岸',
+            'Yemen': '也门',
+            'South Africa': '南非',
+            'Zambia': '赞比亚',
+            'Zimbabwe': '津巴布韦'
+        };
+
+        // 数据
+        let des = ['德语（德文：Deutsch；英文：German），语言系属上属于印欧语系日耳曼语族西日耳曼语支，其标准形式被称为标准德语（Standard deutsch），使用德语的人数占世界人口的3.01%，以使用国家数量来算是世界排名第六的语言，也是世界大国语言之一，以及欧盟内使用最广的母语。',
+            '法语是继西班牙语之后，使用者人数最多的罗曼语言独立语言之一。现时全世界有8700万人把它作为母语，以及其他2.85亿人使用它（包括把它作为第二语言的人）。法语是联合国、欧洲联盟等地区和国际组织的官方语言。法国法语和加拿大法语是世界上两大法语分支，它们之间有很大区别。',
+            "英语,是一种西日耳曼语支，最早被中世纪的英国使用，并因其广阔的殖民地而成为世界使用面积最广的语言。它是联合国、欧洲联盟以及许多其他世界和区域国际组织的官方语言之一。",
+            '日语,又称日本语（にほんご），为日本国的官方语言，母语人数有1亿2500万人，使用日语的人数占世界人口的1.6%。',
+            '西班牙语（西班牙文：Español）属于印欧语系罗曼语族西罗曼语支。按照第一语言使用者数量排名，约有4.37亿人作为母语使用，为世界第二大语言，仅次于汉语。使用西班牙语的人数占世界人口的4.84%，第一语言和第二语言总计使用者将近5.7亿人。主要使用于西班牙和拉丁美洲（巴西、伯利兹、法属圭亚那、海地等地除外）。',
+            '阿拉伯语现为18个阿拉伯国家和地区的官方语言，乍得、坦桑尼亚的官方语言之一，同时也是联合国、非洲联盟、海湾阿拉伯国家合作委员会、阿拉伯国家联盟、伊斯兰合作组织等国际组织的工作语言之一。以阿拉伯语作为母语的人数超过2.6亿人，全球范围内的使用者总计突破4.4亿人。阿拉伯语方言多且差异大。',
+            '韩语属于黏着语，历史上曾用汉字标记，并且将汉语融入其词汇，汉字曾在韩国长期占据主流文字的地位。1446年10月，朝鲜王朝第四代君主世宗大王李裪颁布《训民正音》，标志着韩文的诞生，自此结束了韩国没有自己文字、借用中国汉字进行标记的历史。',
+            '葡萄牙语是继英语和西班牙语之后世界上使用最广泛的语种之一。截止至2013年，全世界共有约230,000,000的人口使用葡萄牙语（Português），是世界流行语种的第6位，仅次于汉语、英语、法语、西班牙语和阿拉伯语。葡萄牙语的使用者绝大部分居住在巴西，而只有1200万左右使用者居住在葡萄牙。',
+            '意大利语（意大利文：Italiano；英文：Italian）属于印欧语系罗曼语族，是意大利、瑞士、梵蒂冈和圣马力诺的官方语言之一，广义的意大利语包括了托斯卡纳语、伦巴第语、萨丁尼亚语、那不勒斯语、西西里语、威尼斯语等语言；而狭义的意大利语，是指以托斯卡纳语为准的标准意大利语。',
+            '俄语（俄文：Русский язык；英文：Russian）是六种联合国工作语言之一，为俄罗斯唯一官方语言，以及白俄罗斯 、哈萨克斯坦、吉尔吉斯斯坦官方语言之一，母语使用人数1亿5千万，第二语言使用人数约1亿1千万。俄语属于印欧语系斯拉夫语族东斯拉夫语支，是斯拉夫语族中使用人数最多的语言。',
+            '暂时没有官方语言简介'
+        ]
+        let reflect = {
+            "英语": "en",
+            "日语": "jp",
+            "德语": "ge",
+            "葡萄牙语":"pt",
+            "西班牙语": "sp",
+            "俄语": "ru",
+            "阿拉伯语": "al",
+            "韩语": "ko",
+            "法语": "fr",
+            "意大利语": "it"
+        }
+        let dataMap = [
+            { "name": "俄罗斯", "value": ["俄语"], "number": 1, "des": des[9] },
+            { "name": "加拿大", "value": ["英语", "法语"], "number": 2 , "des": des[2]},
+            { "name": "中国", "value": ["汉语"], "number": 1 , "des": des[10]},
+            { "name": "美国", "value": ["英语"], "number": 1 , "des": des[2]},
+            { "name": "新加坡", "value": ["英语", "汉语"], "number": 2 , "des": des[2]},
+            { "name": "多米尼加", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "巴勒斯坦", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "巴哈马", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "东帝汶", "value": ['葡萄牙语', '德顿语'], "number": 2 , "des": des[7]},
+            { "name": "阿富汗", "value": ['普什图语', '达利语'], "number": 2 , "des": des[10]},
+            { "name": "几内亚比绍", "value": ['葡萄牙语'], "number": 1, "des": des[7] },
+            { "name": "科特迪瓦", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "英属印度洋领土", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "安哥拉", "value": ['葡萄牙语'], "number": 1 , "des": des[7]},
+            { "name": "阿尔巴尼亚", "value": ['阿尔巴尼亚语'], "number": 1 , "des": des[10]},
+            { "name": "阿联酋", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "阿根廷", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "亚美尼亚", "value": ['亚美尼亚语'], "number": 1 , "des": des[10]},
+            { "name": "法属南半球和南极领地", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "澳大利亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "奥地利", "value": ['德语'], "number": 1 , "des": des[0]},
+            { "name": "阿塞拜疆", "value": ['阿塞拜疆语'], "number": 1 , "des": des[10]},
+            { "name": "布隆迪", "value": ['基隆迪语', '法语'], "number": 2 , "des": des[10]},
+            { "name": "比利时", "value": ['荷兰语', '法语', '德语'], "number": 3 , "des": des[10]},
+            { "name": "贝宁", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "布基纳法索", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "孟加拉国", "value": ['孟加拉语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "保加利亚", "value": ['保加利亚语'], "number": 1 , "des": des[10]},
+            { "name": "巴哈马", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "波斯尼亚和黑塞哥维那", "value": ['波斯尼亚语', '塞尔维亚语', '克罗地亚语'], "number": 3 , "des": des[10]},
+            { "name": "白俄罗斯", "value": ['白俄罗斯语', '俄语'], "number": 2 , "des": des[10]},
+            { "name": "伯利兹", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "百慕大", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "玻利维亚", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "巴西", "value": ['葡萄牙语'], "number": 1 , "des": des[7]},
+            { "name": "文莱", "value": ['马来语'], "number": 1 , "des": des[10]},
+            { "name": "不丹", "value": ['不丹语'], "number": 1 , "des": des[10]},
+            { "name": "博茨瓦纳", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "中非", "value": ['法语', '桑戈语'], "number": 2 , "des": des[1]},
+            { "name": "瑞士", "value": ['德语', '法语', '意大利语', '罗曼什语'], "number": 4 , "des": des[0]},
+            { "name": "智利", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "象牙海岸", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "喀麦隆", "value": ['法语', '英语'], "number": 2 , "des": des[1]},
+            { "name": "刚果民主共和国", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "刚果", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "哥伦比亚", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "哥斯达黎加", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "古巴", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "北塞浦路斯", "value": ['土耳其语'], "number": 1 , "des": des[10]},
+            { "name": "塞浦路斯", "value": ['希腊语', '土耳其语'], "number": 2 , "des": des[10]},
+            { "name": "捷克", "value": ['捷克语'], "number": 1 , "des": des[10]},
+            { "name": "德国", "value": ['德语'], "number": 1 , "des": des[0]},
+            { "name": "吉布提", "value": ['法语', '阿拉伯语'], "number": 2 , "des": des[1]},
+            { "name": "丹麦", "value": ['丹麦语'], "number": 1 , "des": des[10]},
+            { "name": "阿尔及利亚", "value": ['阿拉伯语'], "number": 1 , "des": des[10]},
+            { "name": "厄瓜多尔", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "埃及", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "厄立特里亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "西班牙", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "爱沙尼亚", "value": ['爱沙尼亚语'], "number": 1 , "des": des[10]},
+            { "name": "埃塞俄比亚", "value": ['阿姆哈拉语'], "number": 1 , "des": des[10]},
+            { "name": "芬兰", "value": ['芬兰语', '瑞典语'], "number": 2 , "des": des[10]},
+            { "name": "斐", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "福克兰群岛", "value": ['英语', '法语', '西班牙语'], "number": 3 , "des": des[2]},
+            { "name": "法国", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "加蓬", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "英国", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "格鲁吉亚", "value": ['格鲁吉亚语'], "number": 1 , "des": des[10]},
+            { "name": "加纳", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "几内亚", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "冈比亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "几内亚比绍", "value": ['葡萄牙语'], "number": 1 , "des": des[7]},
+            { "name": "赤道几内亚", "value": ['西班牙语', '法语', '葡萄牙语'], "number": 3 , "des": des[4]},
+            { "name": "希腊", "value": ['希腊语'], "number": 1 , "des": des[10]},
+            { "name": "格陵兰", "value": ['格陵兰语', '丹麦语'], "number": 2 , "des": des[10]},
+            { "name": "危地马拉", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "法属圭亚那", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "圭亚那", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "洪都拉斯", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "克罗地亚", "value": ['克罗地亚语'], "number": 1 , "des": des[10]},
+            { "name": "海地", "value": ['法语', '克里奥尔语'], "number": 2 , "des": des[1]},
+            { "name": "匈牙利", "value": ['匈牙利语'], "number": 1 , "des": des[10]},
+            { "name": "印度尼西亚", "value": ['印度尼西亚语'], "number": 1 , "des": des[10]},
+            { "name": "印度", "value": ['印地语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "爱尔兰", "value": ['爱尔兰语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "伊朗", "value": ['波斯语'], "number": 1 , "des": des[10]},
+            { "name": "伊拉克", "value": ['阿拉伯语', '库尔德语'], "number": 2 , "des": des[10]},
+            { "name": "冰岛", "value": ['冰岛语'], "number": 1 , "des": des[10]},
+            { "name": "以色列", "value": ['希伯来语'], "number": 1 , "des": des[10]},
+            { "name": "意大利", "value": ['意大利语'], "number": 1 , "des": des[8]},
+            { "name": "牙买加", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "约旦", "value": ['阿拉伯语'], "number": 1 , "des": des[10]},
+            { "name": "日本", "value": ['日语'], "number": 1 , "des": des[3]},
+            { "name": "哈萨克斯坦", "value": ['哈萨克语', '俄语'], "number": 2 , "des": des[10]},
+            { "name": "肯尼亚", "value": ['斯瓦希里语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "吉尔吉斯斯坦", "value": ['俄语', '吉尔吉斯语'], "number": 2 , "des": des[9]},
+            { "name": "柬埔寨", "value": ['柬埔寨语'], "number": 1 , "des": des[10]},
+            { "name": "韩国", "value": ['韩语'], "number": 1 , "des": des[6]},
+            { "name": "科索沃", "value": ['塞尔维亚语', '阿尔巴尼亚语'], "number": 2 , "des": des[10]},
+            { "name": "科威特", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "老挝", "value": ['老挝语'], "number": 1 , "des": des[10]},
+            { "name": "黎巴嫩", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "利比里亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "利比亚", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "斯里兰卡", "value": ['僧伽罗语', '泰米尔语'], "number": 2 , "des": des[10]},
+            { "name": "莱索托", "value": ['英语', '塞索托语'], "number": 2 , "des": des[2]},
+            { "name": "立陶宛", "value": ['立陶宛语'], "number": 1 , "des": des[10]},
+            { "name": "卢森堡", "value": ['卢森堡语', '德语', '法语'], "number": 3 , "des": des[10]},
+            { "name": "拉脱维亚", "value": ['拉脱维亚语'], "number": 1 , "des": des[10]},
+            { "name": "摩洛哥", "value": ['阿拉伯语'], "number": 1 , "des": des[10]},
+            { "name": "摩尔多瓦", "value": ['摩尔多瓦语'], "number": 1 , "des": des[10]},
+            { "name": "马达加斯加", "value": ['马达加斯加语', '法语'], "number": 2 , "des": des[10]},
+            { "name": "墨西哥", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "马其顿", "value": ['马其顿语'], "number": 1 , "des": des[10]},
+            { "name": "马里", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "缅甸", "value": ['缅甸语'], "number": 1 , "des": des[10]},
+            { "name": "黑山", "value": ['黑山语'], "number": 1 , "des": des[10]},
+            { "name": "蒙古", "value": ['蒙古语'], "number": 1 , "des": des[10]},
+            { "name": "莫桑比克", "value": ['葡萄牙语'], "number": 1 , "des": des[7]},
+            { "name": "毛里塔尼亚", "value": ['阿拉伯语'], "number": 1 , "des": des[10]},
+            { "name": "马拉维", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "马来西亚", "value": ['马来语'], "number": 1 , "des": des[10]},
+            { "name": "纳米比亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "新喀里多尼亚", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "尼日尔", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "尼日利亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "尼加拉瓜", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "荷兰", "value": ['荷兰语'], "number": 1 , "des": des[10]},
+            { "name": "挪威", "value": ['挪威语'], "number": 1 , "des": des[10]},
+            { "name": "尼泊尔", "value": ['尼泊尔语'], "number": 1 , "des": des[10]},
+            { "name": "新西兰", "value": ['英语', '毛利语'], "number": 2 , "des": des[2]},
+            { "name": "阿曼", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "巴基斯坦", "value": ['乌尔都语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "巴拿马", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "秘鲁", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "菲律宾", "value": ['他加禄语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "巴布亚新几内亚", "value": ['英语', '皮金语'], "number": 2 , "des": des[2]},
+            { "name": "波兰", "value": ['波兰语'], "number": 1 , "des": des[10]},
+            { "name": "波多黎各", "value": ['西班牙语', '英语'], "number": 2 , "des": des[4]},
+            { "name": "朝鲜", "value": ['朝鲜语'], "number": 1 , "des": des[10]},
+            { "name": "葡萄牙", "value": ['葡萄牙语'], "number": 1 , "des": des[7]},
+            { "name": "巴拉圭", "value": ['西班牙语', '瓜拉尼语'], "number": 2 , "des": des[4]},
+            { "name": "卡塔尔", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "罗马尼亚", "value": ['罗马尼亚语'], "number": 1 , "des": des[10]},
+            { "name": "卢旺达", "value": ['卢旺达语', '英语', '法语', '斯瓦西里语'], "number": 4 , "des": des[10]},
+            { "name": "西撒哈拉", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "沙特阿拉伯", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "苏丹", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "南苏丹", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "塞内加尔", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "所罗门群岛", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "塞拉利昂", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "萨尔瓦多", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "索马里兰", "value": ['索马里语', '阿拉伯语'], "number": 2 , "des": des[10]},
+            { "name": "索马里", "value": ['索马里语', '阿拉伯语'], "number": 2 , "des": des[10]},
+            { "name": "塞尔维亚", "value": ['塞尔维亚语'], "number": 1 , "des": des[10]},
+            { "name": "苏里南", "value": ['荷兰语'], "number": 1 , "des": des[10]},
+            { "name": "斯洛伐克", "value": ['斯洛伐克语'], "number": 1 , "des": des[10]},
+            { "name": "斯洛文尼亚", "value": ['斯洛文尼亚语'], "number": 1 , "des": des[10]},
+            { "name": "瑞典", "value": ['瑞典语'], "number": 1 , "des": des[10]},
+            { "name": "斯威士兰", "value": ['斯威士语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "叙利亚", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "乍得", "value": ['法语', '阿拉伯语'], "number": 2 , "des": des[1]},
+            { "name": "多哥", "value": ['法语'], "number": 1 , "des": des[1]},
+            { "name": "泰国", "value": ['泰语'], "number": 1 , "des": des[10]},
+            { "name": "塔吉克斯坦", "value": ['塔吉克语', '俄语'], "number": 2 , "des": des[10]},
+            { "name": "土库曼斯坦", "value": ['土库曼语'], "number": 1 , "des": des[10]},
+            { "name": "东帝汶", "value": ['德顿语', '葡萄牙语'], "number": 2 , "des": des[10]},
+            { "name": "特里尼达和多巴哥", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "突尼斯", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "土耳其", "value": ['土耳其语'], "number": 1 , "des": des[10]},
+            { "name": "坦桑尼亚", "value": ['英语', '斯瓦西里语'], "number": 2 , "des": des[2]},
+            { "name": "乌干达", "value": ['英语', '斯瓦西里语'], "number": 2 , "des": des[2]},
+            { "name": "乌克兰", "value": ['乌克兰语'], "number": 1 , "des": des[10]},
+            { "name": "乌拉圭", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "乌兹别克斯坦", "value": ['乌兹别克语'], "number": 1 , "des": des[10]},
+            { "name": "委内瑞拉", "value": ['西班牙语'], "number": 1 , "des": des[4]},
+            { "name": "越南", "value": ['越南语'], "number": 1 , "des": des[10]},
+            { "name": "瓦努阿图", "value": ['英语', '法语'], "number": 2 , "des": des[2]},
+            { "name": "也门", "value": ['阿拉伯语'], "number": 1 , "des": des[5]},
+            { "name": "南非", "value": ['阿非利卡语', '英语'], "number": 2 , "des": des[10]},
+            { "name": "赞比亚", "value": ['英语'], "number": 1 , "des": des[2]},
+            { "name": "津巴布韦", "value": ['英语', '绍纳语'], "number": 2 , "des": des[2]}
+
+        ]
+
+
+
+        let option = {
+            backgroundColor: "#142531",
+
+
+            title: {    //地图显示标题
+                show: true,
+                text: '世界语言分布',
+                top: "30px",
+                left: 'center',
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 28,
+                    fontStyle: 'italic'
+
+                }
+            },
+
+            toolbox: {  //工具栏
+                show: true,
+                itemSize: 35,
+                orient: 'vertical',
+                top: 50,
+                left: 30,
+
+                feature: {
+                    restore: {
+                        show: true,
+                        title: "恢复地图最初大小",
+                        textStyle: { color: '#fff' }
+                    },
+                    dataView: {},
+                },
+            },
+            
+            tooltip: {  //提示框组件
+                confine:true,
+
+                show: true,
+                trigger: 'item',
+                extraCssText: 'width:800px;white-space: normal;word-break: break-all;',
+                triggerOn: 'click',
+                enterable: true,
+                position: ['20%', '40%'],
+                borderColor: '#d3446a',
+                backgroundColor: '#d7c6b1',
+                borderWidth: 1,
+
+                formatter: function (data) {
+
+                    var n = data.data.number
+                    var i = 0
+                    var w = '<a>' + data.data.name + ' ' + ',' + ' ' + '主要使用语言有：'
+                    var flag=data.data.des
+                    while (i < n) {
+                        w += data.data.value[i] + ' '
+                        i += 1
+                    }
+                    w += '</a>' + "<br>" + '<a>' + "官方语言为： " + data.data.value[0] + '</a>'+"<br>"
+                    w += data.data.des+"<br>"
+                    w +='</a>'
+                    if(flag!=des[10])
+                        {
+                            var l=reflect[data.data.value[0]]
+                        w+='<a style="font-size:23px;color:black;text-decoration: none;"href='
+                        w+=('"http:'+'\/\/'+'localhost:8899'+'\/'+'language'+'\/'+l+'"')
+                        w+=';>'
+                        w+="点击跳转至"+data.data.value[0]+'</a>'   }
+                    return w
+                }
+            },
+            series: [{
+                name: "使用语言",
+                type: 'map',
+                mapType: 'world',
+                roam: true,
+                zoom: 1,
+                mapLocation: { y: 100 },
+                data: dataMap,   //绑定数据
+                nameMap: nameComparison,
+                symbolSize: 22,
+                label: {
+                    normal: { show: false },
+                    emphasis: {
+                        show: true,
+                        color: '#fff'
+                    },
+                },
+
+                itemStyle: {
+                    normal: {
+                        color: "#00d6be",
+                        areaColor: "#00d6be",
+                        borderWidth: 1,
+                        borderColor: '#068b94'
+                    },
+                    emphasis: {
+                        color: "#d7c6b1",
+                        areaColor: "#d7c6b1",
+                        focus: "self",
+                        borderColor: '#d3446a',
+                        borderWidth: 1
+                    }
+                }
+            }],
+        };
+        worldChart.setOption(option);
+
+
+    </script>
+
+</body>
+
+</html>

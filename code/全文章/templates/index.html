@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - &lt;Table&gt; Responsive</title>
+  <link rel="stylesheet" href="/static/style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<p class="return">返回<<<</p>
+<p class="moreassay">更多文章</p>
+<div class="assay_container">
+<table class="container">
+	<thead>
+		<tr>
+			<th><h1>内容</h1></th>
+			<th><h1>标题</h1></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for c in ten %}
+      <tr>
+        <td>{{name[c]}}</td>
+        <td>{{assay[c]}}</td>
+      </tr>
+    {% endfor %}
+	</tbody>
+</table>
+</div>
+<!-- partial -->
+
+</body>
+</html>

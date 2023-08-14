@@ -1,0 +1,105 @@
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+body{
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.icon{
+    display: inline-block;
+    height: 45px;
+    width: 50px;
+    float: left;
+    font-size: 60px;
+}
+a{
+    text-decoration: none;
+}
+.item{
+    position: relative;
+    color: black;
+    margin-left: 5px;
+    transition: .1s;
+    top: 5px;
+    left: 10px;
+    font-size: 25px;
+    opacity: 0;
+}
+.shell{
+    margin-top: 100px;
+    width: 75px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #ffb300;
+    border-radius: 10px;
+    transition: .1s;
+    position: absolute;
+}
+.box{
+    display: block;
+    height: 10% ;
+    width: 100%;
+    margin: 15px;
+    border-radius: 5px;
+    position: relative;
+    transition: .3s;
+    color: azure;
+    float: right;
+}
+.box:nth-child(1)::before{
+    content: ' ';
+    display: block;
+    width: 70%;
+    height: 2px;
+    background-color: rgb(55, 65, 81);
+    position: absolute;
+    bottom: -5px;
+}
+.shell:hover{
+    width: 150px;
+}
+.shell:hover span{
+    opacity: 1;
+}
+.title{
+    margin-top: 50px;
+    width: 100px;
+    height: 400px;
+    position: fixed;
+    font-size: 50px;
+    margin-left: 180px;
+    color: #ffb300;
+    float: top;
+    display: flex;
+    z-index: 100;
+    font-family: "华康方圆体W7";
+}
+.hidden {
+  opacity:0;
+}
+.console-container {
+  background-color: rgba(25, 181, 224, 0.5);
+  font-family:"华康方圆体W7";
+  font-size:4em;
+  text-align:center;
+  height:80px;
+  width:800px;
+  display:block;
+  position:absolute;
+  color:white;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+    z-index: 3;
+    border-radius: 20px;
+
+}
+.console-underscore {
+   display:inline-block;
+  position:relative;
+  top:-0.14em;
+  left:10px;
+}

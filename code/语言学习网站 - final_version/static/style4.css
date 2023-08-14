@@ -1,0 +1,32 @@
+.title_video{
+    font-size: 30px;
+    margin-top: 20px;
+    width: 1200px;
+    height: 30px;
+    margin-bottom: 20px;
+    color: white;
+    position: absolute;
+}
+.video_section{
+    /*display: flex;*/
+    /*  flex-direction: row;*/
+    position: absolute;
+    top: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+    bottom: 20px;
+    width: 950px;
+    /*height: 90%;*/
+    /*background-color: white;*/
+    overflow-y: scroll ;
+    /*opacity: 0;*/
+}
+.video_card{
+    width: 350px;
+    height: 500px;
+    margin-right: 50px;
+    margin-top: 20px;
+    margin-left: 50px;
+    float: left;
+    position: center;
+}

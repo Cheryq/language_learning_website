@@ -1,0 +1,109 @@
+.Collection_my .my_collection{
+    display: flex;
+}
+.reading .my_collection,
+.translate .my_collection,
+.show .my_collection,
+.my_collection{
+    display: none;
+}
+.Collection_my .word_area,
+.Collection_my .stream-area
+.Collection_my .Reading,
+.Collection_my .Translate{
+    display: none;
+}
+.collection_title{
+     font-size: 30px;
+    margin-top: 20px;
+    width: 1200px;
+    height: 30px;
+    margin-bottom: 20px;
+    color: white;
+}
+.current_user{
+    width: 250px;
+    height: 40px;
+    position: absolute;
+    margin-top: 80px;
+    background-color: deeppink;
+    border-radius: 50px;
+    text-align: center;
+    color: #1f1d2b;
+    font-size: 25px;
+}
+.blue { color: #185875; }
+.yellow { color: #FFF842; }
+
+.container_collection th h1 {
+	  font-weight: bold;
+	  font-size: 1em;
+  text-align: left;
+  color: #185875;
+}
+
+.container_collection td {
+	  font-weight: normal;
+	  font-size: 1em;
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+	   -moz-box-shadow: 0 2px 2px -2px #0E1119;
+	        box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.container_collection {
+	  text-align: left;
+	  overflow: scroll;
+	  width: 800px;
+    display: table;
+    padding: 0 0 8em 0;
+    position: absolute;
+    margin-top: 150px;
+}
+
+.container_collection td, .container_collection th {
+	  padding-bottom: 2%;
+	  padding-top: 2%;
+  padding-left:2%;
+}
+
+/* Background-color of the odd rows */
+.container_collection tr:nth-child(odd) {
+	  background-color: #323C50;
+}
+
+/* Background-color of the even rows */
+.container_collection tr:nth-child(even) {
+	  background-color: #2C3446;
+}
+
+.container_collection th {
+	  background-color: #1F2739;
+}
+
+.container_collection td:first-child { color: #FB667A; }
+
+.container_collection tr:hover {
+   background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119;
+	   -moz-box-shadow: 0 6px 6px -6px #0E1119;
+	        box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+.container_collection td:hover {
+  background-color: #FFF842;
+  color: #403E10;
+  font-weight: bold;
+
+  box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+  transform: translate3d(6px, -6px, 0);
+
+  transition-delay: 0s;
+	  transition-duration: 0.4s;
+	  transition-property: all;
+  transition-timing-function: line;
+}
+
+@media (max-width: 800px) {
+.container_collection td:nth-child(4),
+.container_collection th:nth-child(4) { display: none; }
+}
